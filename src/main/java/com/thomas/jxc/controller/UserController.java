@@ -9,6 +9,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -100,7 +101,13 @@ public class UserController {
         }
     }
 
-
+    /**
+     * 保存角色信息
+     * @param pRoleId 角色ID
+     * @param session session
+     * @return map 结果集
+     * @throws Exception
+     */
     @RequestMapping("/save/role")
     public Map<String,Object> saveRole(Integer pRoleId,HttpSession session){
         Map<String,Object> map = new HashMap<>();
@@ -108,6 +115,19 @@ public class UserController {
         session.setAttribute("currentRole",currentRole);
         map.put("success",true);
         return map;
+    }
+
+    /**
+     * 加载当前用户信息
+     * @param session session
+     * @return
+     * @throws Exception
+     */
+    @GetMapping("/load/user-info")
+    public String loadUserInfo(HttpSession session)throws Exception{
+        User currentUser = (User) session.getAttribute("currentUser");
+        Role currentRole = (Role) session.getAttribute("currentRole");
+        return "欢迎您:"+currentUser.getTrueName()+"&nbsp;[&nbsp;"+currentRole.getName()+"&nbsp;]";
     }
 
     // ===========================================================

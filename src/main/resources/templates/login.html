@@ -1,72 +1,15 @@
 <!DOCTYPE html >
 <html  lang="en" class="login-content" data-ng-app="materialAdmin" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="utf-8"/>
-<title>后台登录-进销存管理系统</title>
-<meta name="author" content="DeathGhost" />
+    <meta charset="utf-8"/>
+    <title>后台登录-进销存管理系统</title>
+    <meta name="author" content="DeathGhost" />
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/style.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/login.css}" />
     <script src="/static/js/jquery.js"></script>
     <script src="/static/js/verifyCode.js"></script>
     <script src="/static/js/Particleground.js"></script>
-<script type="text/javascript">
-    /*<![CDATA[*/
-
-    $(document).ready(function() {
-        //粒子背景特效
-        $('body').particleground({
-            dotColor: '#5cbdaa',
-            lineColor: '#5cbdaa'
-        });
-
-        $("#loginBtn").click(function (){
-                   $.post("/user/login",
-                       {"userName":$("#userName").val(),"password":$("#password").val(),"pImageCode":$("#imageCode").val()},
-                       function (data) {
-                            if(data.success){
-                               if(data.roleSize==1){
-                                    var roleId = data.roleList[0].id;
-                                    $.post("/user/save/role",
-                                        {pRoleId:roleId},
-                                    function(data){
-                                        if(data.success){
-                                            window.location.href="/main";
-                                        }
-                                    })
-                               }else {
-                                   $("#roleList").empty();
-                                   var roles = data.roleList;
-                                   for (var i=0;i<roles.length;i++){
-                                       if(i==0){
-                                           $("#roleList").append("<input type='radio' checked=true name='role' value='"+roles[i].id+"'/>"+roles[i].name+"&nbsp;&nbsp;");
-                                       }else{
-                                           $("#roleList").append("<input type='radio' name='role' value='"+roles[i].id+"'/>"+roles[i].name+"&nbsp;&nbsp;");
-                                       }
-                                       $("#light").attr("style","display:block");
-                                       $("#fade").attr("style","display:block");
-                                   }
-                               }
-                            }else{
-                                alert(data.errorInfo);
-                            }
-                        });
-     });
-    });
-
-    function saveRole(){
-        var roleId = $("input[name='role']:checked").val();
-        $.post("/user/save/role",
-            {pRoleId:roleId},
-            function(data){
-                if(data.success){
-                    window.location.href="/main";
-                }
-            })
-    }
-
-
-    /*]]>*/
-</script>
+    <script src="/static/js/admin/login.js"></script>
 </head>
 <body>
 <dl class="admin_login">
