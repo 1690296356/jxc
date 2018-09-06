@@ -1,0 +1,24 @@
+server:
+  port: 8099
+  context-path: /
+
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://112.74.78.121:3306/db_jxc
+    username: root
+    password: 
+#    mvc:
+#      static-path-pattern: /static/**
+#      view:
+#        prefix: classpath:/templates/
+#        suffix: .html
+
+  output:
+    ansi:
+      enabled: ALWAYS
+
+  jpa:
+    hibernate.ddl-auto: update
+    show-sql: true
