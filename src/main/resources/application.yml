@@ -8,7 +8,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://112.74.78.121:3306/db_jxc
     username: root
-    password: 
+    password:
 #    mvc:
 #      static-path-pattern: /static/**
 #      view:
