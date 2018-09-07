@@ -1,24 +1,7 @@
-server:
-  port: 8099
-  context-path: /
-
-
+#读取配置文件 config/application-xx.properties  ps:classpath:/,classpath:/config/,file:./,file:./config/
 spring:
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://112.74.78.121:3306/db_jxc
-    username: root
-    password: 
-#    mvc:
-#      static-path-pattern: /static/**
-#      view:
-#        prefix: classpath:/templates/
-#        suffix: .html
-
+  profiles:
+    active: dev
   output:
     ansi:
       enabled: ALWAYS
-
-  jpa:
-    hibernate.ddl-auto: update
-    show-sql: true
