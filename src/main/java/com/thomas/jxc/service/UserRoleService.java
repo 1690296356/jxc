@@ -1,16 +1,11 @@
 package com.thomas.jxc.service;
 
-import com.thomas.jxc.entity.User;
-import org.springframework.data.domain.Sort;
-
-import java.util.List;
-
 /**
  * @创建人 thomas_liu
- * @创建时间 2018/9/6 11:16
- * @描述 用户Service接口
+ * @创建时间 2018/9/10 18:39
+ * @描述 TODO
  */
-public interface UserService {
+public interface UserRoleService {
 
     // ===========================================================
     // Constants
@@ -38,46 +33,11 @@ public interface UserService {
     // ===========================================================
     // Methods
     // ===========================================================
-
     /**
-     * 根据用户名查找用户实体
-     * @param pUserName 用户名
-     * @return User 用户实体
+     * 根据用户id删除所有关联信息
+     * @param userId
      */
-    public User findByUserName(String pUserName);
-
-
-    /**
-     * 根据条件分页查询用户信息
-     * @param user  user
-     * @param page page
-     * @param pageSize pageSize
-     * @param direction direction
-     * @param properties properties
-     * @return list list
-     */
-    List<User> list(User user, Integer page, Integer pageSize, Sort.Direction direction, String... properties);
-
-
-    /**
-     * 获取总记录数
-     * @param user user
-     * @return long 总记录数
-     */
-    Long getCount(User user);
-
-
-    /**
-     * 添加或者修改用户信息
-     * @param pUser 用户信息
-     */
-    void save(User pUser);
-
-    /**
-     * 根据id删除用户
-     * @param id id
-     */
-    void delete(Integer id);
+    void deleteByUserId(Integer userId);
     // ===========================================================
     // Inner and Anonymous Classes
     // ===========================================================

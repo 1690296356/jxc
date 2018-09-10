@@ -1,17 +1,20 @@
-package com.thomas.jxc.service;
+package com.thomas.jxc.service.impl;
 
-import com.thomas.jxc.entity.User;
-import org.springframework.data.domain.Sort;
+import com.thomas.jxc.repository.UserRoleRepository;
+import com.thomas.jxc.service.UserRoleService;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import javax.annotation.Resource;
 
 /**
  * @创建人 thomas_liu
- * @创建时间 2018/9/6 11:16
- * @描述 用户Service接口
+ * @创建时间 2018/9/10 18:43
+ * @描述 TODO
  */
-public interface UserService {
-
+@Service("userRoleService")
+@Transactional
+public class UserRoleServiceImpl implements UserRoleService {
     // ===========================================================
     // Constants
     // ===========================================================
@@ -20,7 +23,8 @@ public interface UserService {
     // ===========================================================
     // Fields
     // ===========================================================
-
+    @Resource
+    private UserRoleRepository mUserRoleRepository;
     // ===========================================================
     // Constructors
     // ===========================================================
@@ -39,48 +43,13 @@ public interface UserService {
     // Methods
     // ===========================================================
 
-    /**
-     * 根据用户名查找用户实体
-     * @param pUserName 用户名
-     * @return User 用户实体
-     */
-    public User findByUserName(String pUserName);
+    @Override
+    public void deleteByUserId(Integer userId) {
+        mUserRoleRepository.deleteByUserId(userId);
+    }
 
-
-    /**
-     * 根据条件分页查询用户信息
-     * @param user  user
-     * @param page page
-     * @param pageSize pageSize
-     * @param direction direction
-     * @param properties properties
-     * @return list list
-     */
-    List<User> list(User user, Integer page, Integer pageSize, Sort.Direction direction, String... properties);
-
-
-    /**
-     * 获取总记录数
-     * @param user user
-     * @return long 总记录数
-     */
-    Long getCount(User user);
-
-
-    /**
-     * 添加或者修改用户信息
-     * @param pUser 用户信息
-     */
-    void save(User pUser);
-
-    /**
-     * 根据id删除用户
-     * @param id id
-     */
-    void delete(Integer id);
     // ===========================================================
     // Inner and Anonymous Classes
     // ===========================================================
-
 
 }

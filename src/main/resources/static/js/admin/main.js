@@ -39,7 +39,7 @@ $(document).ready(function(){
                 openPasswordModifyDialog();
             }else if(node.id==6050){
                 logout();
-            }else {
+            }else if(eval("("+node.attributes+")").url){
                 openTab(node);
             }
         }
@@ -128,7 +128,7 @@ $(document).ready(function(){
         if($("#tabs").tabs("exists",node.text)){
             $("#tabs").tabs("select",node.text)
         }else{
-            var content="<iframe frameborder=0 scrolling='auto' style='width:100%;height:99%' src='"+node.attributes.url+"'></iframe>";
+            var content="<iframe frameborder=0 scrolling='auto' style='width:100%;height:99%' src='"+eval("("+node.attributes+")").url+"'></iframe>";
 
             $("#tabs").tabs("add",{
                 title:node.text,

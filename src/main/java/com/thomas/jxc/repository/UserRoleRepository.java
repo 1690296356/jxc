@@ -1,16 +1,17 @@
-package com.thomas.jxc.service;
+package com.thomas.jxc.repository;
 
-import com.thomas.jxc.entity.User;
-import org.springframework.data.domain.Sort;
-
-import java.util.List;
+import com.thomas.jxc.entity.UserRole;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * @创建人 thomas_liu
- * @创建时间 2018/9/6 11:16
- * @描述 用户Service接口
+ * @创建时间 2018/9/10 18:40
+ * @描述 TODO
  */
-public interface UserService {
+public interface UserRoleRepository extends JpaRepository<UserRole, Integer>, JpaSpecificationExecutor<UserRole> {
 
     // ===========================================================
     // Constants
@@ -40,44 +41,13 @@ public interface UserService {
     // ===========================================================
 
     /**
-     * 根据用户名查找用户实体
-     * @param pUserName 用户名
-     * @return User 用户实体
+     * 根据用户id删除所有关联信息
+     * @param userId 用户ID
      */
-    public User findByUserName(String pUserName);
+    @Query(value = "delete from t_user_role where user_id=?1",nativeQuery = true)
+    @Modifying
+    public void deleteByUserId(Integer userId);
 
-
-    /**
-     * 根据条件分页查询用户信息
-     * @param user  user
-     * @param page page
-     * @param pageSize pageSize
-     * @param direction direction
-     * @param properties properties
-     * @return list list
-     */
-    List<User> list(User user, Integer page, Integer pageSize, Sort.Direction direction, String... properties);
-
-
-    /**
-     * 获取总记录数
-     * @param user user
-     * @return long 总记录数
-     */
-    Long getCount(User user);
-
-
-    /**
-     * 添加或者修改用户信息
-     * @param pUser 用户信息
-     */
-    void save(User pUser);
-
-    /**
-     * 根据id删除用户
-     * @param id id
-     */
-    void delete(Integer id);
     // ===========================================================
     // Inner and Anonymous Classes
     // ===========================================================

@@ -56,6 +56,16 @@ public class IndexController {
         return "/main";
     }
 
+
+    /**
+     * 用户管理界面
+     * @return str
+     */
+    @RequestMapping(value="/power/user")
+    public String toUser(){
+        return "/power/user";
+    }
+
     // ===========================================================
     // Inner and Anonymous Classes
     // ===========================================================
