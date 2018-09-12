@@ -37,7 +37,37 @@ public interface MenuService {
     // ===========================================================
     // Methods
     // ===========================================================
+    /**
+     * 根据父节点以及用户角色id查询子节点
+     * @param parentId 父节点ID
+     * @param  roleId 用户角色ID
+     * @return menuList 菜单结果集
+     */
     List<Menu> findByParentIDAndRoleID(int parentId, int roleId);
+
+
+    /**
+     * 根据id 获取菜单实体
+     * @param id 菜单ID
+     * @return menu 菜单实体
+     */
+    public Menu findById(Integer id);
+
+    /**
+     * 根据角色id获取菜单集合
+     * @param roleId 角色Id
+     * @return menuList 菜单集合
+     */
+    public List<Menu> findByRoleId(int roleId);
+
+
+    /**
+     * 根据父节点查找所有子节点
+     * @param parentId 父节点Id
+     * @return menuList 菜单集合
+     */
+    public List<Menu> findByParentId(int parentId);
+
 
 
     // ===========================================================

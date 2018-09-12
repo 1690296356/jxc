@@ -78,6 +78,13 @@ public interface UserService {
      * @param id id
      */
     void delete(Integer id);
+
+    /**
+     * 根据id查询用户
+     * @param id id
+     * @return User user
+     */
+    User findByUserId(Integer id);
     // ===========================================================
     // Inner and Anonymous Classes
     // ===========================================================

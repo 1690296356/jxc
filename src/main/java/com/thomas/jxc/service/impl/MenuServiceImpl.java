@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @创建人 thomas_liu
  * @创建时间 2018/9/7 11:25
- * @描述 TODO
+ * @描述 权限菜单Service实现类
  */
 @Service("menuService")
 public class MenuServiceImpl implements MenuService {
@@ -54,6 +54,22 @@ public class MenuServiceImpl implements MenuService {
     public List<Menu> findByParentIDAndRoleID(int pParentID, int pRoleID) {
         return mMenuRepository.findByParentIDAndRoleID(pParentID, pRoleID);
     }
+
+    @Override
+    public Menu findById(Integer id) {
+        return mMenuRepository.findOne(id);
+    }
+
+    @Override
+    public List<Menu> findByRoleId(int roleId) {
+        return mMenuRepository.findByRoleId(roleId);
+    }
+
+    @Override
+    public List<Menu> findByParentId(int parentId) {
+        return mMenuRepository.findByParentId(parentId);
+    }
+
 
     // ===========================================================
     // Inner and Anonymous Classes

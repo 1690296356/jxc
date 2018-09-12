@@ -1,21 +1,15 @@
-package com.thomas.jxc.service.impl;
+package com.thomas.jxc.service;
 
-import com.thomas.jxc.entity.UserRole;
-import com.thomas.jxc.repository.UserRoleRepository;
-import com.thomas.jxc.service.UserRoleService;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.annotation.Resource;
+import com.thomas.jxc.entity.RoleMenu;
 
 /**
  * @创建人 thomas_liu
- * @创建时间 2018/9/10 18:43
- * @描述 TODO
+ * @创建时间 2018/9/11 17:53
+ * @描述 角色菜单关联service接口
  */
-@Service("userRoleService")
-@Transactional
-public class UserRoleServiceImpl implements UserRoleService {
+@SuppressWarnings("unused")
+public interface RoleMenuService {
+
     // ===========================================================
     // Constants
     // ===========================================================
@@ -24,8 +18,7 @@ public class UserRoleServiceImpl implements UserRoleService {
     // ===========================================================
     // Fields
     // ===========================================================
-    @Resource
-    private UserRoleRepository mUserRoleRepository;
+
     // ===========================================================
     // Constructors
     // ===========================================================
@@ -44,23 +37,21 @@ public class UserRoleServiceImpl implements UserRoleService {
     // Methods
     // ===========================================================
 
-    @Override
-    public void deleteByUserId(Integer userId) {
-        mUserRoleRepository.deleteByUserId(userId);
-    }
+    /**
+     * 根据角色id删除所有关联信息
+     * @param roleId 角色ID
+     */
+    public void deleteByRoleId(Integer roleId);
 
-    @Override
-    public void save(UserRole userRole) {
-        mUserRoleRepository.save(userRole);
-    }
 
-    @Override
-    public void deleteByRoleId(Integer roleId) {
-        mUserRoleRepository.deleteByRoleId(roleId);
-    }
-
-// ===========================================================
+    /**
+     * 保存实体
+     * @param roleMenu 角色菜单实体
+     */
+    public void save(RoleMenu roleMenu);
+    // ===========================================================
     // Inner and Anonymous Classes
     // ===========================================================
+
 
 }

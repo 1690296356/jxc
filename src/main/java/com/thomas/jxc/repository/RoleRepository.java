@@ -48,6 +48,13 @@ public interface RoleRepository extends JpaRepository<Role, Integer>, JpaSpecifi
     public List<Role> findByUserId(Integer id);
 
 
+    /**
+     * 根据角色名查找角色实体
+     * @param roleName 角色名称
+     * @return role 角色实体
+     */
+    @Query(value = "select * from t_role where name=?1",nativeQuery = true)
+    public Role findByRoleByRoleName(String roleName);
     // ===========================================================
     // Inner and Anonymous Classes
     // ===========================================================

@@ -2,7 +2,6 @@ package com.thomas.jxc.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @创建人 thomas_liu
@@ -64,6 +63,15 @@ public class IndexController {
     @RequestMapping(value="/power/user")
     public String toUser(){
         return "/power/user";
+    }
+
+    /**
+     * 角色管理界面
+     * @return str
+     */
+    @RequestMapping(value="/power/role")
+    public String toRole(){
+        return "/power/role";
     }
 
     // ===========================================================

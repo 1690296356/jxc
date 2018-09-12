@@ -11,7 +11,7 @@
     <script type="text/javascript" src="/static/js/admin/user.js"></script>
 </head>
 <body style="margin: 1px">
-    <table id="dg" title="用户管理" class="easyui-datagrid" fitColumns="true" pagination="true" rownumbers="true" singleSelect="true" url="/admin/user/list" fit="true" toolbar="#tb">
+    <table id="dg" title="用户管理" class="easyui-datagrid" fitColumns="true" pagination="true" rownumbers="true" singleSelect="true" url="/power/admin/user/list" fit="true" toolbar="#tb">
         <thead>
             <th field="id" width="20" align="center" >编号</th>
             <th field="userName" width="20" align="center" >用户名</th>
@@ -69,6 +69,23 @@
     <div id="dlg-buttons">
         <a href="javascript:saveUser()" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
         <a href="javascript:closeUserDialog()" class="easyui-linkbutton" iconCls="icon-cancel">关闭</a>
+    </div>
+
+    <div id="dlg2" class="easyui-dialog" style="width: 500px;height: 350px" closed="true" buttons="#dlg-buttons2" >
+        <input type="hidden" id="userId" name="userId" />
+        <table id="dg2" class="easyui-datagrid" fitColumns="true" fit="true">
+            <thead>
+            <th field="cb" checkbox="true" align="center"></th>
+            <th field="id" width="20" align="left" hidden="true">编号</th>
+            <th field="name" width="100" align="left">角色名称</th>
+            <th field="remarks" width="200" align="left">备注</th>
+            </thead>
+        </table>
+    </div>
+
+    <div id="dlg-buttons2">
+        <a href="javascript:saveRoleSet()" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+        <a href="javascript:closeRoleRoleSetDialog" class="easyui-linkbutton" iconCls="icon-cancel">关闭</a>
     </div>
 </body>
 </html>

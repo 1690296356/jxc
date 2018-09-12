@@ -53,7 +53,7 @@ public interface MenuRepository extends JpaRepository<Menu, Integer> {
      * @param roleId 角色ID
      * @return 菜单列表
      */
-    @Query(value = "SELECT m.* FROM t_role r,t_role_menu rm, t_menu m WHERE rm.'role_id'=r.'id' AND rm.'menu_id'=m.'id' AND r.'id'=?1",nativeQuery = true)
+    @Query(value="SELECT m.* FROM t_role r,t_role_menu rm,t_menu m WHERE rm.`role_id`=r.`id` AND rm.`menu_id`=m.`id` AND r.`id`=?1",nativeQuery=true)
     public List<Menu> findByRoleId(int roleId);
 
 
@@ -64,7 +64,7 @@ public interface MenuRepository extends JpaRepository<Menu, Integer> {
      * @param  pParentID 父节点ID
      * @return 菜单列表
      */
-    @Query(value = "SELECT * FROM t_menu WHERE p_id?1", nativeQuery=true)
+    @Query(value = "SELECT * FROM t_menu WHERE p_id=?1", nativeQuery=true)
     public List<Menu> findByParentId(int pParentID);
 
 

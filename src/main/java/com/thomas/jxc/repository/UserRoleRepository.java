@@ -44,10 +44,20 @@ public interface UserRoleRepository extends JpaRepository<UserRole, Integer>, Jp
      * 根据用户id删除所有关联信息
      * @param userId 用户ID
      */
+    @SuppressWarnings({"UnnecessaryInterfaceModifier", "SqlDialectInspection", "SqlNoDataSourceInspection"})
     @Query(value = "delete from t_user_role where user_id=?1",nativeQuery = true)
     @Modifying
     public void deleteByUserId(Integer userId);
 
+
+    /**
+     * 根据角色id删除所有关联信息
+     * @param roleId 角色ID
+     */
+    @SuppressWarnings({"UnnecessaryInterfaceModifier", "SqlDialectInspection", "SqlNoDataSourceInspection"})
+    @Query(value="delete from t_user_role where role_id=?1",nativeQuery = true)
+    @Modifying
+    public void deleteByRoleId(Integer roleId);
     // ===========================================================
     // Inner and Anonymous Classes
     // ===========================================================

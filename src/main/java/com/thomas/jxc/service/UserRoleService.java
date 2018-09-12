@@ -1,5 +1,7 @@
 package com.thomas.jxc.service;
 
+import com.thomas.jxc.entity.UserRole;
+
 /**
  * @创建人 thomas_liu
  * @创建时间 2018/9/10 18:39
@@ -35,9 +37,23 @@ public interface UserRoleService {
     // ===========================================================
     /**
      * 根据用户id删除所有关联信息
-     * @param userId
+     * @param userId userId
      */
     void deleteByUserId(Integer userId);
+
+    /**
+     * 保存用户角色信息
+     * @param userRole userRole
+     */
+    void save(UserRole userRole);
+
+
+    /**
+     *根据角色id删除所有关联信息
+     * @param roleId roleId
+     */
+    @SuppressWarnings("unused")
+    void deleteByRoleId(Integer roleId);
     // ===========================================================
     // Inner and Anonymous Classes
     // ===========================================================

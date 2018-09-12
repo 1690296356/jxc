@@ -1,8 +1,8 @@
 package com.thomas.jxc.service.impl;
 
-import com.thomas.jxc.entity.UserRole;
-import com.thomas.jxc.repository.UserRoleRepository;
-import com.thomas.jxc.service.UserRoleService;
+import com.thomas.jxc.entity.RoleMenu;
+import com.thomas.jxc.repository.RoleMenuRepository;
+import com.thomas.jxc.service.RoleMenuService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,12 +10,12 @@ import javax.annotation.Resource;
 
 /**
  * @创建人 thomas_liu
- * @创建时间 2018/9/10 18:43
+ * @创建时间 2018/9/11 18:00
  * @描述 TODO
  */
-@Service("userRoleService")
+@Service("roleMenuService")
 @Transactional
-public class UserRoleServiceImpl implements UserRoleService {
+public class RoleMenuServiceImpl implements RoleMenuService {
     // ===========================================================
     // Constants
     // ===========================================================
@@ -25,7 +25,7 @@ public class UserRoleServiceImpl implements UserRoleService {
     // Fields
     // ===========================================================
     @Resource
-    private UserRoleRepository mUserRoleRepository;
+    private RoleMenuRepository mRoleMenuRepository;
     // ===========================================================
     // Constructors
     // ===========================================================
@@ -45,21 +45,16 @@ public class UserRoleServiceImpl implements UserRoleService {
     // ===========================================================
 
     @Override
-    public void deleteByUserId(Integer userId) {
-        mUserRoleRepository.deleteByUserId(userId);
-    }
-
-    @Override
-    public void save(UserRole userRole) {
-        mUserRoleRepository.save(userRole);
-    }
-
-    @Override
     public void deleteByRoleId(Integer roleId) {
-        mUserRoleRepository.deleteByRoleId(roleId);
+        mRoleMenuRepository.deleteByRoleId(roleId);
     }
 
-// ===========================================================
+    @Override
+    public void save(RoleMenu roleMenu) {
+        mRoleMenuRepository.save(roleMenu);
+    }
+
+    // ===========================================================
     // Inner and Anonymous Classes
     // ===========================================================
 

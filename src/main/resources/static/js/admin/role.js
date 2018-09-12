@@ -2,47 +2,55 @@
 var url;
 
 function formatEdit(val,row) {
-    return "<a href=\"javascript:openRoleChooseDialog('"+row.roles+"',"+row.id+")\"><img style='margin-top:4px' src='/static/images/edit.gif' /></a>";
+    return "<a href=\"javascript:openMenuSetDialog("+row.id+")\"><img style='margin-top:4px' src='/static/images/edit.gif' /></a>";
 }
 
-function openRoleChooseDialog(roles,userId){
-    var rolesArr = roles.split(",");
-    $("#dlg2").dialog("open").dialog("setTitle","选择角色");
-    $("#dg2").datagrid({
-        url:'/power/admin/role/list/all-role',
-        onLoadSuccess:function (data) {
-            var allRows=$("#dg2").datagrid("getRows");
-            for(var i=0;i<allRows.length;i++){
-                var name = allRows[i].name;
-                if($.inArray(name,rolesArr)>=0){
-                    $("#dg2").datagrid("checkRow",i);
-                }
+function openMenuSetDialog(roleId){
+    $("#dlg2").dialog("open").dialog("setTitle","权限菜单设置");
+    $("#menuTree").tree({
+        lines:true,
+        checkbox:true,
+        cascadeCheck:false,
+        url:'/power/admin/role/load/check-menu-info?parentId=-1&roleId='+roleId,
+        onLoadSuccess:function ( ) {
+           $("#menuTree").tree("expandAll");
+        },
+        onCheck:function(node,checked){
+            if(checked){
+                checkNode($("#menuTree").tree("getParent",node.target));
             }
         }
     });
-    $("#userId").val(userId);
+    $("#roleId").val(roleId);
 }
 
-function searchUser() {
+function checkNode(node){
+    if(!node){
+        return;
+    }else{
+        checkNode($("#menuTree").tree("getParent",node.target));
+        $("#menuTree").tree("check",node.target);
+    }
+}
+
+function searchRole() {
     $("#dg").datagrid('load',{
-        "userName":$("#s_userName").val()
+        "name":$("#s_roleName").val()
     });
 }
 
 
 function resetValue() {
-    $("#userName").val("");
-    $("#password").val("");
-    $("#trueName").val("");
+    $("#name").val("");
     $("#remarks").val("");
 }
 
-function closeUserDialog() {
+function closeRoleDialog() {
     $("#dlg").dialog("close");
     resetValue();
 }
 
-function saveUser() {
+function saveRole() {
     $("#fm").form("submit",{
         url:url,
         onSubmit:function(){
@@ -63,26 +71,24 @@ function saveUser() {
 
 }
 
-function openUserAddDialog() {
-    $("#userName").removeAttr("readonly");
-    $("#dlg").dialog("open").dialog("setTitle","添加用户信息");
-    url = "/power/admin/user/save";
+function openRoleAddDialog() {
+    $("#dlg").dialog("open").dialog("setTitle","添加角色信息");
+    url = "/power/admin/role/save";
 }
 
-function openUserModifyDialog(){
+function openRoleModifyDialog(){
     var selectedRows = $("#dg").datagrid("getSelections");
     if(selectedRows.length != 1){
         $.messager.alert("系统提示","请选择一条要修改的数据!");
         return;
     }
     var row =selectedRows[0];
-    $("#dlg").dialog("open").dialog("setTitle","修改用户信息");
+    $("#dlg").dialog("open").dialog("setTitle","修改角色信息");
     $("#fm").form("load", row);
-    $("#userName").attr("readonly","readonly");
-    url="/power/admin/user/save?id="+row.id;
+    url="/power/admin/role/save?id="+row.id;
 }
 
-function deleteUser() {
+function deleteRole() {
     var selectedRows = $("#dg").datagrid("getSelections");
     if(selectedRows.length != 1){
         $.messager.alert("系统提示","请选择一条要删除的数据!");
@@ -91,7 +97,7 @@ function deleteUser() {
     var id = selectedRows[0].id;
     $.messager.confirm("系统提示","您确定要删除这条数据吗?",function (r) {
         if(r){
-            $.post("/power/admin/user/delete",{id:id},function(data){
+            $.post("/power/admin/role/delete",{id:id},function(data){
                 if(data.success){
                     $.messager.alert("系统提示","数据成功删除!");
                     $("#dg").datagrid("reload");
@@ -108,33 +114,31 @@ function deleteUser() {
 $(document).ready(function () {
     $("#dg").datagrid({
         onDblClickRow:function (index,row) {
-            $("#dlg").dialog("open").dialog("setTitle","修改用户信息");
+            $("#dlg").dialog("open").dialog("setTitle","修改角色信息");
             $("#fm").form("load",row);
-            $("#userName").attr("readonly","readonly");
-            url = "/power/admin/user/save?id="+row.id;
+            url = "/power/admin/role/save?id="+row.id;
         }
     });
 });
 
-function saveRoleSet(){
-    var userID=$("#userId").val();
-    var selectedRows=$("#dg2").datagrid("getSelections");
-    var strRoleIds = [];
-    for(var i=0;i<selectedRows.length;i++){
-        strRoleIds.push(selectedRows[i].id);
+function saveMenuSet(){
+    var roleId=$("#roleId").val();
+    var nodes=$("#menuTree").tree("getChecked");
+    var menuArrIds = [];
+    for(var i=0;i<nodes.length;i++){
+        menuArrIds.push(nodes[i].id);
     }
-    var roleIds = strRoleIds.join(",");
+    var menuIds = menuArrIds.join(",");
 
-    $.post("admin/user/save/role",{roleIDS:roleIds,userID:userID},function(data){
+    $.post("admin/role/save/menu-set",{menuIds:menuIds,roleId:roleId},function(data){
         if(data.success){
-            closeRoleSetDialog();
-            $("#dg").datagrid("reload");
+            closeMenuSetDialog();
         }else{
             $.messager.alert("系统提示","提交失败，请联系管理员!");
         }
-    });
+    },"json");
 }
 
-function closeRoleSetDialog(){
+function closeMenuSetDialog(){
     $("#dlg2").dialog("close");
 }

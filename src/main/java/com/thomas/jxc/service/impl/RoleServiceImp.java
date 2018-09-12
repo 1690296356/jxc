@@ -1,8 +1,8 @@
 package com.thomas.jxc.service.impl;
 
-import com.thomas.jxc.entity.User;
-import com.thomas.jxc.repository.UserRepository;
-import com.thomas.jxc.service.UserService;
+import com.thomas.jxc.entity.Role;
+import com.thomas.jxc.repository.RoleRepository;
+import com.thomas.jxc.service.RoleService;
 import com.thomas.jxc.util.StringUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -20,11 +21,12 @@ import java.util.List;
 
 /**
  * @创建人 thomas_liu
- * @创建时间 2018/9/6 11:19
- * @描述 TODO
+ * @创建时间 2018/9/6 11:28
+ * @描述 角色ServiceImpl
  */
-@Service("userService")
-public class UserServiceImpl implements UserService {
+@Service("roleService")
+@Transactional
+public class RoleServiceImp implements RoleService {
     // ===========================================================
     // Constants
     // ===========================================================
@@ -34,8 +36,7 @@ public class UserServiceImpl implements UserService {
     // Fields
     // ===========================================================
     @Resource
-    private UserRepository mUserRepository;
-
+    private RoleRepository mRoleRepository;
     // ===========================================================
     // Constructors
     // ===========================================================
@@ -53,40 +54,52 @@ public class UserServiceImpl implements UserService {
     // ===========================================================
     // Methods
     // ===========================================================
+
     @Override
-    public User findByUserName(String pUserName) {
-        return mUserRepository.findByUserName(pUserName);
+    public List<Role> findByUserId(Integer id) {
+        return mRoleRepository.findByUserId(id);
     }
 
     @Override
-    public List<User> list(User pUser, Integer pPage, Integer pPageSize, Sort.Direction pDirection, String... pProperties) {
+    public Role findById(Integer id) {
+        return mRoleRepository.findOne(id);
+    }
+
+    @Override
+    public List<Role> listAll() {
+        return mRoleRepository.findAll();
+    }
+
+
+    @Override
+    public List<Role> list(Role pRole, Integer pPage, Integer pPageSize, Sort.Direction pDirection, String... pProperties) {
         Pageable pageable = new PageRequest(pPage-1, pPageSize);
-        Page<User> pageUser = mUserRepository.findAll(new Specification<User>() {
+        Page<Role> pageRole = mRoleRepository.findAll(new Specification<Role>() {
             @Override
-            public Predicate toPredicate(Root<User> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-               Predicate predicate = cb.conjunction();
-               if(pUser != null){
-                    if(StringUtil.isNotEmpty(pUser.getUserName())){
-                        predicate.getExpressions().add(cb.like(root.get("userName"),"%"+pUser.getUserName()+"%"));
+            public Predicate toPredicate(Root<Role> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                Predicate predicate = cb.conjunction();
+                if(pRole != null){
+                    if(StringUtil.isNotEmpty(pRole.getName())){
+                        predicate.getExpressions().add(cb.like(root.get("name"),"%"+pRole.getName()+"%"));
                     }
 
-                   predicate.getExpressions().add(cb.notEqual(root.get("id"), 1));
-               }
+                    predicate.getExpressions().add(cb.notEqual(root.get("id"), 1));
+                }
                 return predicate;
             }
         },pageable);
-        return pageUser.getContent();
+        return pageRole.getContent();
     }
 
     @Override
-    public Long getCount(User pUser) {
-        Long count = mUserRepository.count(new Specification<User>() {
+    public Long getCount(Role pRole) {
+        Long count = mRoleRepository.count(new Specification<Role>() {
             @Override
-            public Predicate toPredicate(Root<User> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+            public Predicate toPredicate(Root<Role> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 Predicate predicate = cb.conjunction();
-                if(pUser != null){
-                    if(StringUtil.isNotEmpty(pUser.getUserName())){
-                        predicate.getExpressions().add(cb.like(root.get("userName"),"%"+pUser.getUserName()+"%"));
+                if(pRole != null){
+                    if(StringUtil.isNotEmpty(pRole.getName())){
+                        predicate.getExpressions().add(cb.like(root.get("name"),"%"+pRole.getName()+"%"));
                     }
                     predicate.getExpressions().add(cb.notEqual(root.get("id"),1));
                 }
@@ -98,18 +111,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void save(User pUser) {
-        mUserRepository.save(pUser);
+    public void save(Role pRole) {
+        mRoleRepository.save(pRole);
     }
 
     @Override
     public void delete(Integer id) {
-        mUserRepository.delete(id);
+        mRoleRepository.delete(id);
     }
 
     @Override
-    public User findByUserId(Integer id) {
-        return mUserRepository.findOne(id);
+    public Role findByRoleByRoleName(String roleName) {
+        return mRoleRepository.findByRoleByRoleName(roleName);
     }
 
     // ===========================================================
