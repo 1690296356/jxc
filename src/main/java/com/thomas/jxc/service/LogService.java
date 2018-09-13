@@ -1,15 +1,18 @@
-package com.thomas.jxc.controller;
+package com.thomas.jxc.service;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.thomas.jxc.entity.Log;
+import com.thomas.jxc.entity.Role;
+import org.springframework.data.domain.Sort;
+
+import java.util.List;
 
 /**
  * @创建人 thomas_liu
- * @创建时间 2018/9/5 17:36
- * @描述 首页Controller
+ * @创建时间 2018/9/6 11:25
+ * @描述 角色Service接口
  */
-@Controller
-public class IndexController {
+@SuppressWarnings("unused")
+public interface LogService {
     // ===========================================================
     // Constants
     // ===========================================================
@@ -36,52 +39,30 @@ public class IndexController {
     // ===========================================================
     // Methods
     // ===========================================================
-    /**
-     * 登录请求
-     * @return str
-     */
-    @RequestMapping(value={"/login","/"})
-    public String login(){
-        return "/login";
-    }
-
 
     /**
-     * 主界面
-     * @return str
+     * 添加或者修改日志信息
+     * @param pLog 日志信息
      */
-    @RequestMapping(value="/main")
-    public String toMain(){
-        return "/main";
-    }
-
+    void save(Log pLog);
 
     /**
-     * 用户管理界面
-     * @return str
+     * 根据条件分页查询日志信息
+     * @param log  log
+     * @param page page
+     * @param pageSize pageSize
+     * @param direction direction
+     * @param properties properties
+     * @return list list
      */
-    @RequestMapping(value="/power/user")
-    public String toUser(){
-        return "/power/user";
-    }
+    List<Log> list(Log log, Integer page, Integer pageSize, Sort.Direction direction, String... properties);
 
     /**
-     * 角色管理界面
-     * @return str
+     * 获取总记录数
+     * @param log log
+     * @return
      */
-    @RequestMapping(value="/power/role")
-    public String toRole(){
-        return "/power/role";
-    }
-
-    /**
-     * 系统日志界面
-     * @return str
-     */
-    @RequestMapping(value="/power/log")
-    public String toLog(){
-        return "/power/log";
-    }
+    Long getCount(Log log);
 
     // ===========================================================
     // Inner and Anonymous Classes

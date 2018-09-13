@@ -1,8 +1,10 @@
 package com.thomas.jxc.controller.admin;
 
+import com.thomas.jxc.entity.Log;
 import com.thomas.jxc.entity.Role;
 import com.thomas.jxc.entity.User;
 import com.thomas.jxc.entity.UserRole;
+import com.thomas.jxc.service.LogService;
 import com.thomas.jxc.service.RoleService;
 import com.thomas.jxc.service.UserRoleService;
 import com.thomas.jxc.service.UserService;
@@ -42,6 +44,9 @@ public class UserAdminController {
 
     @Resource
     private UserRoleService mUserRoleService;
+
+    @Resource
+    private LogService mLogService;
 
     // ===========================================================
     // Constructors
@@ -87,6 +92,7 @@ public class UserAdminController {
         Long total = mUserService.getCount(pUser);
         map.put("rows",userList);
         map.put("total",total);
+        mLogService.save(new Log(Log.SEARCH_ACTION, "查询用户信息"));
         return map;
     }
 
@@ -106,6 +112,11 @@ public class UserAdminController {
                 return map;
             }
         }
+        if(pUser.getId()!=null){
+            mLogService.save(new Log(Log.UPDATE_ACTION,"更新用户信息"+pUser));
+        }else{
+            mLogService.save(new Log(Log.ADD_ACTION, "添加用户信息"+pUser));
+        }
         mUserService.save(pUser);
         map.put("success", true);
         return map;
@@ -121,6 +132,7 @@ public class UserAdminController {
     @RequestMapping("/delete")
     @RequiresPermissions(value="用户管理")
     public Map<String, Object> delete(Integer id) throws Exception{
+        mLogService.save(new Log(Log.DELETE_ACTION,"删除用户信息"+mUserService.findByUserId(id)));
         Map<String, Object> map = new HashMap<>();
         mUserRoleService.deleteByUserId(id);
         mUserService.delete(id);
@@ -152,6 +164,7 @@ public class UserAdminController {
             }
         }
         map.put("success",true);
+        mLogService.save(new Log(Log.UPDATE_ACTION,"保存用户角色管理"));
         return map;
     }
 

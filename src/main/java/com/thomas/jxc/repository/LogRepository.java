@@ -1,15 +1,17 @@
-package com.thomas.jxc.controller;
+package com.thomas.jxc.repository;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.thomas.jxc.entity.Log;
+import com.thomas.jxc.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * @创建人 thomas_liu
- * @创建时间 2018/9/5 17:36
- * @描述 首页Controller
+ * @创建时间 2018/9/3 16:40
+ * @描述 TODO
  */
-@Controller
-public class IndexController {
+public interface LogRepository extends JpaRepository<Log, Integer>, JpaSpecificationExecutor<Log> {
     // ===========================================================
     // Constants
     // ===========================================================
@@ -36,52 +38,7 @@ public class IndexController {
     // ===========================================================
     // Methods
     // ===========================================================
-    /**
-     * 登录请求
-     * @return str
-     */
-    @RequestMapping(value={"/login","/"})
-    public String login(){
-        return "/login";
-    }
 
-
-    /**
-     * 主界面
-     * @return str
-     */
-    @RequestMapping(value="/main")
-    public String toMain(){
-        return "/main";
-    }
-
-
-    /**
-     * 用户管理界面
-     * @return str
-     */
-    @RequestMapping(value="/power/user")
-    public String toUser(){
-        return "/power/user";
-    }
-
-    /**
-     * 角色管理界面
-     * @return str
-     */
-    @RequestMapping(value="/power/role")
-    public String toRole(){
-        return "/power/role";
-    }
-
-    /**
-     * 系统日志界面
-     * @return str
-     */
-    @RequestMapping(value="/power/log")
-    public String toLog(){
-        return "/power/log";
-    }
 
     // ===========================================================
     // Inner and Anonymous Classes

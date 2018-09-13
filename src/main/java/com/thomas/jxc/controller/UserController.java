@@ -2,9 +2,11 @@ package com.thomas.jxc.controller;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.thomas.jxc.entity.Log;
 import com.thomas.jxc.entity.Menu;
 import com.thomas.jxc.entity.Role;
 import com.thomas.jxc.entity.User;
+import com.thomas.jxc.service.LogService;
 import com.thomas.jxc.service.MenuService;
 import com.thomas.jxc.service.RoleService;
 import com.thomas.jxc.service.UserService;
@@ -49,6 +51,9 @@ public class UserController {
 
     @Resource
     private MenuService mMenuService;
+
+    @Resource
+    private LogService mLogService;
     // ===========================================================
     // Constructors
     // ===========================================================
@@ -100,6 +105,7 @@ public class UserController {
             map.put("roleList", roleList);
             map.put("roleSize",roleList.size());
             map.put("success",true);
+            mLogService.save(new Log(Log.LOGIN_ACTION,"用户登录"));
             return map;
         }catch (Exception e){
             e.printStackTrace();

@@ -2,6 +2,7 @@ package com.thomas.jxc.controller.admin;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.thomas.jxc.entity.Log;
 import com.thomas.jxc.entity.Menu;
 import com.thomas.jxc.entity.Role;
 import com.thomas.jxc.entity.RoleMenu;
@@ -47,6 +48,9 @@ public class RoleAdminController {
 
     @Resource
     private MenuService mMenuService;
+
+    @Resource
+    private LogService mLogService;
     // ===========================================================
     // Constructors
     // ===========================================================
@@ -65,11 +69,15 @@ public class RoleAdminController {
     // Methods
     // ===========================================================
     @SuppressWarnings("RedundantThrows")
+    /**
+     * 查询所有用户角色
+     */
     @RequestMapping("/list/all-role")
     @RequiresPermissions(value={"用户管理","角色管理"},logical = Logical.OR)
     public Map<String,Object> listAll() throws Exception{
         Map<String,Object> map = new HashMap<>();
         map.put("rows",mRoleService.listAll());
+        mLogService.save(new Log(Log.SEARCH_ACTION,"查询所有角色信息"));
         return map;
     }
 
@@ -91,6 +99,7 @@ public class RoleAdminController {
         Long total = mRoleService.getCount(pRole);
         map.put("rows",roleList);
         map.put("total",total);
+        mLogService.save(new Log(Log.SEARCH_ACTION,"查询角色信息"));
         return map;
     }
 
@@ -110,6 +119,12 @@ public class RoleAdminController {
                 return map;
             }
         }
+        if(pRole.getId() != null){
+            mLogService.save(new Log(Log.UPDATE_ACTION,"修改角色信息"+pRole));
+        }else{
+            mLogService.save(new Log(Log.ADD_ACTION, "添加角色信息"+pRole));
+        }
+
         mRoleService.save(pRole);
         map.put("success", true);
         return map;
@@ -125,6 +140,7 @@ public class RoleAdminController {
     @RequestMapping("/delete")
     @RequiresPermissions(value="角色管理")
     public Map<String, Object> delete(Integer id) throws Exception{
+        mLogService.save(new Log(Log.DELETE_ACTION, "删除角色信息"+mRoleService.findById(id)));
         Map<String, Object> map = new HashMap<>();
         mRoleMenuService.deleteByRoleId(id);
         mUserRoleService.deleteByRoleId(id);
@@ -226,6 +242,7 @@ public class RoleAdminController {
             }
         }
         map.put("success", true);
+        mLogService.save(new Log(Log.UPDATE_ACTION,"保存角色权限设置"));
         return map;
     }
     // ===========================================================
