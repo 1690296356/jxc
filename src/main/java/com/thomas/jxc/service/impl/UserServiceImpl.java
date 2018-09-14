@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
            Predicate predicate = cb.conjunction();
            if(pUser != null){
                 if(StringUtil.isNotEmpty(pUser.getUserName())){
-                    predicate.getExpressions().add(cb.like(root.get("userName"),"%"+pUser.getUserName()+"%"));
+                    predicate.getExpressions().add(cb.like(root.get("userName"),"%"+pUser.getUserName().trim()+"%"));
                 }
 
                predicate.getExpressions().add(cb.notEqual(root.get("id"), 1));
@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
             Predicate predicate = cb.conjunction();
             if(pUser != null){
                 if(StringUtil.isNotEmpty(pUser.getUserName())){
-                    predicate.getExpressions().add(cb.like(root.get("userName"),"%"+pUser.getUserName()+"%"));
+                    predicate.getExpressions().add(cb.like(root.get("userName"),"%"+pUser.getUserName().trim()+"%"));
                 }
                 predicate.getExpressions().add(cb.notEqual(root.get("id"),1));
             }

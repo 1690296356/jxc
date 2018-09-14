@@ -97,7 +97,7 @@ public class LogServiceImpl implements LogService {
                     predicate.getExpressions().add(cb.equal(root.get("type"),log.getType()));
                 }
                 if(log.getUser() != null && StringUtil.isNotEmpty(log.getUser().getTrueName())){
-                    predicate.getExpressions().add(cb.like(root.get("user").get("trueName"), "%"+log.getUser().getTrueName()+"%"));
+                    predicate.getExpressions().add(cb.like(root.get("user").get("trueName"), "%"+log.getUser().getTrueName().trim()+"%"));
                 }
                 if(log.getbTime() !=null){
                     predicate.getExpressions().add(cb.greaterThanOrEqualTo(root.get("time"), log.getbTime()));

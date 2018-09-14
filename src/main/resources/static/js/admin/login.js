@@ -8,12 +8,16 @@ $(document).ready(function() {
     });
 
     $("#loginBtn").click(function (){
+        // noinspection JSUnresolvedFunction
         $.post("/user/login",
             {"userName":$("#userName").val(),"password":$("#password").val(),"pImageCode":$("#imageCode").val()},
             function (data) {
                 if(data.success){
-                    if(data.roleSize==1){
+                    // noinspection JSUnresolvedVariable
+                    if(data.roleSize===1){
+                        // noinspection JSUnresolvedVariable
                         var roleId = data.roleList[0].id;
+                        // noinspection JSUnresolvedFunction
                         $.post("/user/save/role",
                             {pRoleId:roleId},
                             function(data){
@@ -22,10 +26,12 @@ $(document).ready(function() {
                                 }
                             })
                     }else {
+                        // noinspection JSJQueryEfficiency
                         $("#roleList").empty();
+                        // noinspection JSUnresolvedVariable
                         var roles = data.roleList;
                         for (var i=0;i<roles.length;i++){
-                            if(i==0){
+                            if(i===0){
                                 $("#roleList").append("<input type='radio' checked=true name='role' value='"+roles[i].id+"'/>"+roles[i].name+"&nbsp;&nbsp;");
                             }else{
                                 $("#roleList").append("<input type='radio' name='role' value='"+roles[i].id+"'/>"+roles[i].name+"&nbsp;&nbsp;");
@@ -35,6 +41,7 @@ $(document).ready(function() {
                         }
                     }
                 }else{
+                    // noinspection JSUnresolvedVariable
                     alert(data.errorInfo);
                 }
             });
@@ -43,6 +50,7 @@ $(document).ready(function() {
 
 function saveRole(){
     var roleId = $("input[name='role']:checked").val();
+    // noinspection JSUnresolvedFunction
     $.post("/user/save/role",
         {pRoleId:roleId},
         function(data){

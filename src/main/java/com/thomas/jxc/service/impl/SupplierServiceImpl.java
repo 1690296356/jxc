@@ -57,7 +57,7 @@ public class SupplierServiceImpl implements SupplierService {
             Predicate predicate = cb.conjunction();
             if(supplier != null){
                 if(StringUtil.isNotEmpty(supplier.getName())){
-                    predicate.getExpressions().add(cb.like(root.get("name"),"%"+supplier.getName()+"%"));
+                    predicate.getExpressions().add(cb.like(root.get("name"),"%"+supplier.getName().trim()+"%"));
                 }
             }
             return predicate;

@@ -8,15 +8,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.util.List;
 
 /**
@@ -74,38 +70,32 @@ public class RoleServiceImp implements RoleService {
     @Override
     public List<Role> list(Role pRole, Integer pPage, Integer pPageSize, Sort.Direction pDirection, String... pProperties) {
         Pageable pageable = new PageRequest(pPage-1, pPageSize);
-        Page<Role> pageRole = mRoleRepository.findAll(new Specification<Role>() {
-            @Override
-            public Predicate toPredicate(Root<Role> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                Predicate predicate = cb.conjunction();
-                if(pRole != null){
-                    if(StringUtil.isNotEmpty(pRole.getName())){
-                        predicate.getExpressions().add(cb.like(root.get("name"),"%"+pRole.getName()+"%"));
-                    }
-
-                    predicate.getExpressions().add(cb.notEqual(root.get("id"), 1));
+        Page<Role> pageRole = mRoleRepository.findAll((root, query, cb) -> {
+            Predicate predicate = cb.conjunction();
+            if(pRole != null){
+                if(StringUtil.isNotEmpty(pRole.getName())){
+                    predicate.getExpressions().add(cb.like(root.get("name"),"%"+pRole.getName().trim()+"%"));
                 }
-                return predicate;
+
+                predicate.getExpressions().add(cb.notEqual(root.get("id"), 1));
             }
+            return predicate;
         },pageable);
         return pageRole.getContent();
     }
 
+    @SuppressWarnings("UnnecessaryLocalVariable")
     @Override
     public Long getCount(Role pRole) {
-        Long count = mRoleRepository.count(new Specification<Role>() {
-            @Override
-            public Predicate toPredicate(Root<Role> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                Predicate predicate = cb.conjunction();
-                if(pRole != null){
-                    if(StringUtil.isNotEmpty(pRole.getName())){
-                        predicate.getExpressions().add(cb.like(root.get("name"),"%"+pRole.getName()+"%"));
-                    }
-                    predicate.getExpressions().add(cb.notEqual(root.get("id"),1));
+        Long count = mRoleRepository.count((root, query, cb) -> {
+            Predicate predicate = cb.conjunction();
+            if(pRole != null){
+                if(StringUtil.isNotEmpty(pRole.getName())){
+                    predicate.getExpressions().add(cb.like(root.get("name"),"%"+pRole.getName().trim()+"%"));
                 }
-                return predicate;
+                predicate.getExpressions().add(cb.notEqual(root.get("id"),1));
             }
-
+            return predicate;
         });
         return count;
     }
