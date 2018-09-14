@@ -1,15 +1,17 @@
-package com.thomas.jxc.controller;
+package com.thomas.jxc.service;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.thomas.jxc.entity.Supplier;
+import org.springframework.data.domain.Sort;
+
+import java.util.List;
 
 /**
  * @创建人 thomas_liu
- * @创建时间 2018/9/5 17:36
- * @描述 首页Controller
+ * @创建时间 2018/9/13 19:21
+ * @描述 TODO
  */
-@Controller
-public class IndexController {
+public interface SupplierService {
+
     // ===========================================================
     // Constants
     // ===========================================================
@@ -37,63 +39,47 @@ public class IndexController {
     // Methods
     // ===========================================================
     /**
-     * 登录请求
-     * @return str
+     * 根据条件分页查询供应商信息
+     * @param supplier  supplier
+     * @param page page
+     * @param pageSize pageSize
+     * @param direction direction
+     * @param properties properties
+     * @return list list
      */
-    @RequestMapping(value={"/login","/"})
-    public String login(){
-        return "/login";
-    }
+    List<Supplier> list(Supplier supplier, Integer page, Integer pageSize, Sort.Direction direction, String... properties);
 
 
     /**
-     * 主界面
-     * @return str
+     * 获取总记录数
+     * @param supplier supplier
+     * @return long 总记录数
      */
-    @RequestMapping(value="/main")
-    public String toMain(){
-        return "/main";
-    }
+    Long getCount(Supplier supplier);
 
 
     /**
-     * 用户管理界面
-     * @return str
+     * 添加或者修改供应商信息
+     * @param supplier 供应商信息
      */
-    @RequestMapping(value="/power/user")
-    public String toUser(){
-        return "/power/user";
-    }
+    void save(Supplier supplier);
 
     /**
-     * 角色管理界面
-     * @return str
+     * 根据id删除供应商
+     * @param id id
      */
-    @RequestMapping(value="/power/role")
-    public String toRole(){
-        return "/power/role";
-    }
+    void delete(Integer id);
 
     /**
-     * 系统日志界面
-     * @return str
+     * 根据id查询供应商
+     * @param id id
+     * @return Supplier supplier
      */
-    @RequestMapping(value="/power/log")
-    public String toLog(){
-        return "/power/log";
-    }
-
-    /**
-     * 供应商管理界面
-     * @return str
-     */
-    @RequestMapping(value="/basicData/supplier")
-    public String toSupplier(){
-        return "/basicData/supplier";
-    }
+    Supplier findById(Integer id);
 
     // ===========================================================
     // Inner and Anonymous Classes
     // ===========================================================
+
 
 }

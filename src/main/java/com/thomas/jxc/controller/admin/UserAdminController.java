@@ -9,13 +9,17 @@ import com.thomas.jxc.service.RoleService;
 import com.thomas.jxc.service.UserRoleService;
 import com.thomas.jxc.service.UserService;
 import com.thomas.jxc.util.StringUtil;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +29,7 @@ import java.util.Map;
  * @创建时间 2018/9/7 17:44
  * @描述 TODO
  */
-@RestController
+@Controller
 @RequestMapping("/power/admin/user")
 public class UserAdminController {
     // ===========================================================
@@ -75,6 +79,7 @@ public class UserAdminController {
      * @throws Exception exception
      */
     @SuppressWarnings("RedundantThrows")
+    @ResponseBody
     @RequestMapping("/list")
     @RequiresPermissions(value="用户管理")
     public Map<String, Object> list(User pUser, @RequestParam(value = "page",required = false) Integer page, @RequestParam(value  = "rows",required = false) Integer rows) throws Exception{
@@ -101,6 +106,7 @@ public class UserAdminController {
      * @param pUser 用户实体
      * @return map 结果集
      */
+    @ResponseBody
     @RequestMapping("/save")
     @RequiresPermissions(value="用户管理")
     public Map<String, Object> saveUser(User pUser){
@@ -129,6 +135,7 @@ public class UserAdminController {
      * @throws Exception exception
      */
     @SuppressWarnings("RedundantThrows")
+    @ResponseBody
     @RequestMapping("/delete")
     @RequiresPermissions(value="用户管理")
     public Map<String, Object> delete(Integer id) throws Exception{
@@ -149,6 +156,7 @@ public class UserAdminController {
      * @throws Exception exception
      */
     @SuppressWarnings("RedundantThrows")
+    @ResponseBody
     @RequestMapping("/save/role")
     @RequiresPermissions("用户管理")
     public Map<String, Object> saveRoleSet(String roleIDS,Integer userID)throws Exception{
@@ -167,6 +175,43 @@ public class UserAdminController {
         mLogService.save(new Log(Log.UPDATE_ACTION,"保存用户角色管理"));
         return map;
     }
+
+    /**
+     * 安全退出
+     * @param session session
+     * @return
+     * @throws Exception
+     */
+    @GetMapping("/logout")
+    @RequiresPermissions(value="安全退出")
+    public String logout(HttpSession session)throws Exception{
+        mLogService.save(new Log(Log.LOGOUT_ACTION,"用户注销"));
+        SecurityUtils.getSubject().logout();
+        return "/login";
+    }
+
+
+    /**
+     * 修改密码
+     * @param newPassword newPassword
+     * @param session session
+     * @return map map
+     * @throws Exception exception
+     */
+    @ResponseBody
+    @RequestMapping("/modify/password")
+    @RequiresPermissions(value="修改密码")
+    public Map<String,Object> modifyPassword(String newPassword,HttpSession session)throws  Exception{
+        Map<String,Object> map = new HashMap<>();
+        User currentUser = (User) session.getAttribute("currentUser");
+        User user = mUserService.findByUserId(currentUser.getId());
+        user.setPassword(newPassword);
+        mUserService.save(user);
+        map.put("success",true);
+        mLogService.save(new Log(Log.UPDATE_ACTION,"修改密码"));
+        return map;
+    }
+
 
 
     // ===========================================================

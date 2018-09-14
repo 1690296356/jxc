@@ -139,9 +139,56 @@ $(document).ready(function(){
         }
     }
     function openPasswordModifyDialog(){
+        $("#dlg").dialog("open").dialog("setTitle","修改密码");
+        url="/power/admin/user/modify/password";
     }
+
     function logout(){
+        $.messager.confirm("系统提示","您确定要退出系统吗?",function (r) {
+            if(r){
+                window.location.href="/power/admin/user/logout";
+            }
+        });
     }
 });
+
+function modifyPassword(){
+    $("#fm").form("submit",{
+        url:url,
+        onSubmit:function(){
+            var newPassword = $("#newPassword").val();
+            var newPasswordSec= $("#newPasswordSec").val();
+            if(!$(this).form("validate")){
+                return false;
+            }
+            if (newPassword != newPasswordSec){
+                $.messager.alert("系统提示","新密码输入错误!");
+                return false;
+            }
+            return true;
+        },
+        success:function (data) {
+            var data = eval('('+data+')');
+            if(data.success){
+                $.messager.alert("系统提示","密码修改成功,下一次登录生效!");
+                resetValue();
+                $("#dlg").dialog("close");
+            }else{
+                $.messager.alert("系统提示","密码修改失败，请联系管理员!");
+            }
+        }
+    });
+}
+
+function closePasswordModifyDialog(){
+    resetValue();
+    $("#dlg").dialog("close");
+}
+
+
+function resetValue() {
+    $("#newPassword").val("");
+    $("#newPasswordSec").val("");
+}
 
 /*]]>*/
