@@ -92,6 +92,24 @@ public class IndexController {
         return "/basicData/supplier";
     }
 
+    /**
+     * 客户管理界面
+     * @return str
+     */
+    @RequestMapping(value="/basicData/customer")
+    public String toCustomer(){
+        return "/basicData/customer";
+    }
+
+    /**
+     * 商品界面
+     * @return str
+     */
+    @RequestMapping(value="/basicData/goods")
+    public String toGoods(){
+        return "/basicData/goods";
+    }
+
     // ===========================================================
     // Inner and Anonymous Classes
     // ===========================================================
