@@ -43,7 +43,7 @@ public class Goods {
 
     private  float lastPurchasingPrice;//上次采购价格
 
-    private float purchasePrice;//采购价格 成本价 假如价格变动算平均值
+    private float purchasingPrice;//采购价格 成本价 假如价格变动算平均值
 
     private float sellingPrice;//出售价格
 
@@ -124,13 +124,7 @@ public class Goods {
         this.lastPurchasingPrice = lastPurchasingPrice;
     }
 
-    public float getPurchasePrice() {
-        return purchasePrice;
-    }
 
-    public void setPurchasePrice(float purchasePrice) {
-        this.purchasePrice = purchasePrice;
-    }
 
     public float getSellingPrice() {
         return sellingPrice;
@@ -180,6 +174,13 @@ public class Goods {
         this.remarks = remarks;
     }
 
+    public float getPurchasingPrice() {
+        return purchasingPrice;
+    }
+
+    public void setPurchasingPrice(float purchasingPrice) {
+        this.purchasingPrice = purchasingPrice;
+    }
 
     // ===========================================================
     // Methods for/from SuperClass/Interfaces
@@ -195,7 +196,7 @@ public class Goods {
                 ", type=" + type +
                 ", unit='" + unit + '\'' +
                 ", lastPurchasingPrice=" + lastPurchasingPrice +
-                ", purchasePrice=" + purchasePrice +
+                ", purchasingPrice=" + purchasingPrice +
                 ", sellingPrice=" + sellingPrice +
                 ", inventoryQuantity=" + inventoryQuantity +
                 ", minNum=" + minNum +

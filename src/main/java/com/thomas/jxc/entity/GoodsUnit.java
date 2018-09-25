@@ -1,19 +1,15 @@
-package com.thomas.jxc.repository;
+package com.thomas.jxc.entity;
 
-import com.thomas.jxc.entity.Goods;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Query;
-
-import java.util.List;
+import javax.persistence.*;
 
 /**
  * @创建人 thomas_liu
- * @创建时间 2018/9/13 18:14
- * @描述 商品Repository接口
+ * @创建时间 2018/9/18 14:48
+ * @描述 商品单位实体
  */
-public interface GoodsRepository extends JpaRepository<Goods, Integer>, JpaSpecificationExecutor<Goods> {
-
+@Entity
+@Table(name = "t_goodsunit")
+public class GoodsUnit {
     // ===========================================================
     // Constants
     // ===========================================================
@@ -22,6 +18,13 @@ public interface GoodsRepository extends JpaRepository<Goods, Integer>, JpaSpeci
     // ===========================================================
     // Fields
     // ===========================================================
+    @Id
+    @GeneratedValue
+    private Integer id;//编号
+
+    @Column(length = 10)
+    private String name;//商品单位名称
+
 
     // ===========================================================
     // Constructors
@@ -31,6 +34,30 @@ public interface GoodsRepository extends JpaRepository<Goods, Integer>, JpaSpeci
     // ===========================================================
     // Getter &amp; Setter
     // ===========================================================
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "GoodsUnit{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
 
     // ===========================================================
     // Methods for/from SuperClass/Interfaces
@@ -40,26 +67,9 @@ public interface GoodsRepository extends JpaRepository<Goods, Integer>, JpaSpeci
     // ===========================================================
     // Methods
     // ===========================================================
-    @SuppressWarnings({"UnnecessaryInterfaceModifier", "unused", "SqlDialectInspection"})
-    /**
-     * 查询某个商品类别下的所有商品
-     * @param typeId 类别Id
-     * @return goodsList 商品集合
-     */
-    @Query(value = "select * from t_goods where type_id=?1",nativeQuery = true)
-    public List<Goods> findByTypeId(int typeId);
-
-
-    /**
-     * 获取最大的商品编码
-     * @return str str
-     */
-    @Query(value = "SELECT MAX(code) FROM t_goods",nativeQuery = true)
-    public String getMaxGoodsCode();
 
     // ===========================================================
     // Inner and Anonymous Classes
     // ===========================================================
-
 
 }

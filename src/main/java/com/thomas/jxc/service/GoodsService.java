@@ -65,6 +65,33 @@ public interface GoodsService {
      */
     Long getCount(Goods goods);
 
+    /**
+     * 获取最大的商品编码
+     * @return str str
+     */
+    public String getMaxGoodsCode();
+
+
+    /**
+     * 添加或者修改商品信息
+     * @param goods goods
+     */
+    public void save(Goods goods);
+
+
+    /**
+     *根据id查询实体
+     * @param id id
+     * @return goods goods
+     */
+    public Goods findById(Integer id);
+
+
+    /**
+     *
+     * @param id
+     */
+    public void delete(Integer id);
     // ===========================================================
     // Inner and Anonymous Classes
     // ===========================================================

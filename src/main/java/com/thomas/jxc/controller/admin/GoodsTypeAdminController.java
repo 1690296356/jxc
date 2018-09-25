@@ -58,6 +58,7 @@ public class GoodsTypeAdminController {
     // ===========================================================
     // Methods
     // ===========================================================
+    @SuppressWarnings("RedundantThrows")
     @RequestMapping("/save")
     @RequiresPermissions(value="商品管理")
     public Map<String,Object>  save(String name,Integer parentId)throws Exception{
@@ -84,6 +85,7 @@ public class GoodsTypeAdminController {
      * @return 商品类别结果集 商品类别结果集
      * @throws Exception exception
      */
+    @SuppressWarnings("RedundantThrows")
     @RequestMapping("/delete")
     @RequiresPermissions(value="商品管理")
     public Map<String, Object> delete(Integer id)throws Exception{
@@ -112,7 +114,7 @@ public class GoodsTypeAdminController {
      */
     @SuppressWarnings({"UnnecessaryContinue", "WeakerAccess"})
     @RequestMapping("/loadTreeInfo")
-    @RequiresPermissions(value="角色管理")
+    @RequiresPermissions(value="商品管理")
     public String loadTreeInfo(){
         mLogService.save(new Log(Log.SEARCH_ACTION,"查询所有商品类别信息"));
         return getAllByParentId(-1).toString();
@@ -123,13 +125,13 @@ public class GoodsTypeAdminController {
      * @param parentId 父节点id
      * @return jsonArray jsonArray
      */
-    @SuppressWarnings({"SuspiciousMethodCalls", "WeakerAccess"})
+    @SuppressWarnings({"SuspiciousMethodCalls", "WeakerAccess", "SingleStatementInBlock"})
     public JsonArray getAllByParentId(Integer parentId){
         JsonArray jsonArray = this.getByParentId(parentId);
         for (int i=0;i<jsonArray.size();i++) {
             JsonObject jsonObject = (JsonObject) jsonArray.get(i);
             if("open".equals(jsonObject.get("state").getAsString())){
-               continue;
+                continue;
             }else{
                 jsonObject.add("children",getAllByParentId(jsonObject.get("id").getAsInt()));//叶子节点
             }
@@ -142,17 +144,18 @@ public class GoodsTypeAdminController {
      * @param parentId 父节点
      * @return jsonArray jsonArray
      */
+    @SuppressWarnings("WeakerAccess")
     public JsonArray getByParentId(Integer parentId){
         List<GoodsType> goodsTypeList = mGoodsTypeService.findByParentId(parentId);
         JsonArray jsonArray = new JsonArray();
         for (GoodsType goodsType:goodsTypeList) {
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("id", goodsType.getId());
-            jsonObject.addProperty("text",goodsType.getName());
+            jsonObject.addProperty("id", goodsType.getId()); // 节点Id
+            jsonObject.addProperty("text", goodsType.getName()); // 节点名称
             if(goodsType.getState()==1){
                 jsonObject.addProperty("state","closed");//根节点
             }else{
-                jsonObject.addProperty("state","opne");//叶子节点
+                jsonObject.addProperty("state", "open"); // 叶子节点
             }
             jsonObject.addProperty("iconCls", goodsType.getIcon());//节点图标
             JsonObject attributeObject = new JsonObject();//扩展属性

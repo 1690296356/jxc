@@ -1,19 +1,20 @@
-package com.thomas.jxc.repository;
+package com.thomas.jxc.service.impl;
 
-import com.thomas.jxc.entity.Goods;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Query;
+import com.thomas.jxc.entity.GoodsUnit;
+import com.thomas.jxc.repository.GoodsUnitRepository;
+import com.thomas.jxc.service.GoodsUnitService;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
  * @创建人 thomas_liu
- * @创建时间 2018/9/13 18:14
- * @描述 商品Repository接口
+ * @创建时间 2018/9/6 11:19
+ * @描述 TODO
  */
-public interface GoodsRepository extends JpaRepository<Goods, Integer>, JpaSpecificationExecutor<Goods> {
-
+@Service("goodsUnitService")
+public class GoodsUnitServiceImpl implements GoodsUnitService {
     // ===========================================================
     // Constants
     // ===========================================================
@@ -22,6 +23,8 @@ public interface GoodsRepository extends JpaRepository<Goods, Integer>, JpaSpeci
     // ===========================================================
     // Fields
     // ===========================================================
+    @Resource
+    private GoodsUnitRepository mGoodsUnitRepository;
 
     // ===========================================================
     // Constructors
@@ -40,26 +43,30 @@ public interface GoodsRepository extends JpaRepository<Goods, Integer>, JpaSpeci
     // ===========================================================
     // Methods
     // ===========================================================
-    @SuppressWarnings({"UnnecessaryInterfaceModifier", "unused", "SqlDialectInspection"})
-    /**
-     * 查询某个商品类别下的所有商品
-     * @param typeId 类别Id
-     * @return goodsList 商品集合
-     */
-    @Query(value = "select * from t_goods where type_id=?1",nativeQuery = true)
-    public List<Goods> findByTypeId(int typeId);
 
+    @Override
+    public List<GoodsUnit> listAll() {
+        return mGoodsUnitRepository.findAll();
+    }
 
-    /**
-     * 获取最大的商品编码
-     * @return str str
-     */
-    @Query(value = "SELECT MAX(code) FROM t_goods",nativeQuery = true)
-    public String getMaxGoodsCode();
+    @Override
+    public void save(GoodsUnit goodsUnit) {
+        mGoodsUnitRepository.save(goodsUnit);
+    }
+
+    @Override
+    public void delete(Integer id) {
+        mGoodsUnitRepository.delete(id);
+    }
+
+    @Override
+    public GoodsUnit findById(Integer id) {
+        return mGoodsUnitRepository.findOne(id);
+    }
+
 
     // ===========================================================
     // Inner and Anonymous Classes
     // ===========================================================
-
 
 }

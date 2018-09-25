@@ -91,6 +91,25 @@ public class GoodsServiceImpl implements GoodsService {
         return count;
     }
 
+    @Override
+    public String getMaxGoodsCode() {
+        return mGoodsRepository.getMaxGoodsCode();
+    }
+
+    @Override
+    public void save(Goods goods) {
+        mGoodsRepository.save(goods);
+    }
+
+    @Override
+    public Goods findById(Integer id) {
+        return mGoodsRepository.findOne(id);
+    }
+
+    @Override
+    public void delete(Integer id) {
+        mGoodsRepository.delete(id);
+    }
 
     // ===========================================================
     // Inner and Anonymous Classes

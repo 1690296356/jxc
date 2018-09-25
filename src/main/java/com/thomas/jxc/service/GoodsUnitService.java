@@ -1,18 +1,15 @@
-package com.thomas.jxc.repository;
+package com.thomas.jxc.service;
 
-import com.thomas.jxc.entity.Goods;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Query;
+import com.thomas.jxc.entity.GoodsUnit;
 
 import java.util.List;
 
 /**
  * @创建人 thomas_liu
- * @创建时间 2018/9/13 18:14
- * @描述 商品Repository接口
+ * @创建时间 2018/9/6 11:16
+ * @描述 商品单位Service接口
  */
-public interface GoodsRepository extends JpaRepository<Goods, Integer>, JpaSpecificationExecutor<Goods> {
+public interface GoodsUnitService {
 
     // ===========================================================
     // Constants
@@ -40,23 +37,30 @@ public interface GoodsRepository extends JpaRepository<Goods, Integer>, JpaSpeci
     // ===========================================================
     // Methods
     // ===========================================================
-    @SuppressWarnings({"UnnecessaryInterfaceModifier", "unused", "SqlDialectInspection"})
     /**
-     * 查询某个商品类别下的所有商品
-     * @param typeId 类别Id
-     * @return goodsList 商品集合
+     * 查询所有商品单位信息
+     * @return list list
      */
-    @Query(value = "select * from t_goods where type_id=?1",nativeQuery = true)
-    public List<Goods> findByTypeId(int typeId);
-
+    List<GoodsUnit> listAll();
 
     /**
-     * 获取最大的商品编码
-     * @return str str
+     * 添加或者修改商品单位信息
+     * @param goodsUnit 商品单位
      */
-    @Query(value = "SELECT MAX(code) FROM t_goods",nativeQuery = true)
-    public String getMaxGoodsCode();
+    void save(GoodsUnit goodsUnit);
 
+    /**
+     * 根据id删除商品单位信息
+     * @param id id
+     */
+    void delete(Integer id);
+
+    /**
+     * 根据id查询实体
+     * @param id id
+     * @return GoodsUnit goodsUnit
+     */
+    GoodsUnit findById(Integer id);
     // ===========================================================
     // Inner and Anonymous Classes
     // ===========================================================
